@@ -15,75 +15,55 @@
 package mainworld
 
 import (
-	"kong-xiang-shi-jie/pkg/core/game"
+	"image"
+	"kong-xiang-shi-jie/pkg/core/controller"
+	"kong-xiang-shi-jie/pkg/input"
+	"kong-xiang-shi-jie/pkg/player"
 	"kong-xiang-shi-jie/pkg/types"
-
-	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func init() {
-	callback, err := game.RegisterSubController(types.Option, &defaultGame)
+	err := controller.RegisterGame(GameIden, &defaultGame)
 	if err != nil {
 		panic(err)
 	}
-	defaultGame.ParentSwitchState = callback
 }
-
-const (
-	ScreenWidth  = 420
-	ScreenHeight = 600
-	boardSize    = 4
-)
 
 // Game represents a game state.
 type Game struct {
-	board             *Board
-	boardImage        *ebiten.Image
-	ParentSwitchState func(types.ControllerState)
+	Player     player.Player
+	Background image.Image
+	Map        []types.BlockType
+	Animals    []types.Animal
 }
 
 var defaultGame = Game{}
+var GameIden types.GameIden = 1
 
-// NewGame generates a new Game object.
-func NewGame() (*Game, error) {
-	g := &Game{
-		input: NewInput(),
-	}
-	var err error
-	g.board, err = NewBoard(boardSize)
-	if err != nil {
-		return nil, err
-	}
-	return g, nil
+func GetGame() Game {
+	return defaultGame
 }
 
-// Layout implements ebiten.Game's Layout.
-func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return ScreenWidth, ScreenHeight
+func (g *Game) initialization() {
+	g.Player = player.NewPlay()
+
 }
 
-// Update updates the current game state.
 func (g *Game) Update() error {
-	g.input.Update()
-	if err := g.board.Update(g.input); err != nil {
-		return err
+
+	keyboard := input.GetKeyboard()
+	if  {
+
 	}
+
+	g.Player.Update()
+	for _, animal := range g.Animals {
+		animal.Update()
+	}
+
 	return nil
 }
 
-// Draw draws the current game to the given screen.
-func (g *Game) Draw(screen *ebiten.Image) {
-	if g.boardImage == nil {
-		w, h := g.board.Size()
-		g.boardImage = ebiten.NewImage(w, h)
-	}
-	screen.Fill(backgroundColor)
-	g.board.Draw(g.boardImage)
-	op := &ebiten.DrawImageOptions{}
-	sw, sh := screen.Size()
-	bw, bh := g.boardImage.Size()
-	x := (sw - bw) / 2
-	y := (sh - bh) / 2
-	op.GeoM.Translate(float64(x), float64(y))
-	screen.DrawImage(g.boardImage, op)
+func (g *Game) Load() error {
+	return nil
 }

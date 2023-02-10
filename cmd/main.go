@@ -3,13 +3,14 @@ package main
 import (
 	"log"
 
-	"kong-xiang-shi-jie/pkg/core/start"
+	_ "kong-xiang-shi-jie/extend"
+	"kong-xiang-shi-jie/pkg/core/controller"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
-	game := start.GetController()
+	game := controller.GetController()
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
