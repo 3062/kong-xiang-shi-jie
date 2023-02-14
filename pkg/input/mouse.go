@@ -6,19 +6,11 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type mouseState int
-
-const (
-	release mouseState = iota
-	relaxation
-	click
-	press
-)
-
+// Mouse 结构体不保证零值可用时，需要在 input 中初始化
 type Mouse struct {
-	LeftButton   mouseState
-	RightButton  mouseState
-	MiddleButton mouseState
+	LeftButton   Continued
+	RightButton  Continued
+	MiddleButton Continued
 	Roller       float64
 
 	Position vector.Vector2[int]
@@ -27,9 +19,9 @@ type Mouse struct {
 }
 
 func (m *Mouse) Update() {
-	m.LeftButton = ButtonState(m.LeftButton, ebiten.MouseButtonLeft)
-	m.RightButton = ButtonState(m.RightButton, ebiten.MouseButtonRight)
-	m.MiddleButton = ButtonState(m.MiddleButton, ebiten.MouseButtonMiddle)
+	m.LeftButton.Update(ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft))
+	m.RightButton.Update(ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight))
+	m.MiddleButton.Update(ebiten.IsMouseButtonPressed(ebiten.MouseButtonMiddle))
 
 	tempVec := vector.NewVector2[int](ebiten.CursorPosition())
 	if m.Position.Equal(tempVec) {
@@ -39,32 +31,4 @@ func (m *Mouse) Update() {
 	}
 	m.Shift = m.Position.Sub(tempVec)
 	m.Position = tempVec
-}
-
-func (m *Mouse) IsPressLeft() bool {
-	return m.LeftButton == click || m.LeftButton == press
-}
-
-func (m *Mouse) IsPressRight() bool {
-	return m.RightButton == click || m.RightButton == press
-}
-
-func (m *Mouse) IsPressMiddle() bool {
-	return m.MiddleButton == click || m.MiddleButton == press
-}
-
-func ButtonState(current mouseState, button ebiten.MouseButton) mouseState {
-	if ebiten.IsMouseButtonPressed(button) {
-		if current == press || current == click {
-			return press
-		} else {
-			return click
-		}
-	} else {
-		if current == press || current == click {
-			return release
-		} else {
-			return relaxation
-		}
-	}
 }

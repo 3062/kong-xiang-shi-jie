@@ -17,13 +17,12 @@ package mainworld
 import (
 	"image"
 	"kong-xiang-shi-jie/pkg/core/controller"
-	"kong-xiang-shi-jie/pkg/input"
 	"kong-xiang-shi-jie/pkg/player"
 	"kong-xiang-shi-jie/pkg/types"
 )
 
 func init() {
-	err := controller.RegisterGame(GameIden, &defaultGame)
+	err := controller.RegisterGame(GameID, &defaultGame)
 	if err != nil {
 		panic(err)
 	}
@@ -31,35 +30,29 @@ func init() {
 
 // Game represents a game state.
 type Game struct {
-	Player     player.Player
-	Background image.Image
-	Map        []types.BlockType
-	Animals    []types.Animal
+	Player      player.Player
+	Background  image.Image
+	Map         []types.BlockType
+	Animals     []types.Animal
+	Environment Environment
 }
 
 var defaultGame = Game{}
-var GameIden types.GameIden = 1
+var GameID types.GameID = 1
 
 func GetGame() Game {
 	return defaultGame
 }
 
 func (g *Game) initialization() {
-	g.Player = player.NewPlay()
-
 }
 
 func (g *Game) Update() error {
-
-	keyboard := input.GetKeyboard()
-	if  {
-
-	}
-
 	g.Player.Update()
 	for _, animal := range g.Animals {
 		animal.Update()
 	}
+	g.Environment.Update()
 
 	return nil
 }

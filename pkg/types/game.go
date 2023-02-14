@@ -1,6 +1,6 @@
 package types
 
-type GameIden int
+type GameID int
 
 type Game interface {
 	Update() error
