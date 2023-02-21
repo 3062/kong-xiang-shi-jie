@@ -1,5 +1,7 @@
 package types
 
+import "kong-xiang-shi-jie/tool/queue"
+
 type BlockType int32
 
 const NoneBlock BlockType = 0      //无方块
@@ -16,3 +18,9 @@ const (
 	SoilEnd
 	LeafEnd
 )
+
+type Block interface {
+	GetBlockType() BlockType
+	Destroyed()
+	SettlementQueue(queue.Queue[func()]) // 统一结算队列，在逻辑帧 update 最后执行，主要用于大范围方块破坏时，等待全部结算后再执行一些判断行为
+}
