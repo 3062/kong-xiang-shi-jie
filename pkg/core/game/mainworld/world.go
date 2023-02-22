@@ -32,7 +32,7 @@ func init() {
 type Game struct {
 	Player      player.Player
 	Background  image.Image
-	Map         []types.BlockType
+	Map         []types.EntityType
 	Animals     []types.Animal
 	Environment Environment
 }

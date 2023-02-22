@@ -12,13 +12,13 @@ type Leaf struct {
 	Root *Root
 }
 
-func (b *Leaf) Destroyed(q *queue.Queue[func()]) types.BlockType {
+func (b *Leaf) Destroyed(q *queue.Queue[func()]) types.EntityType {
 	if b.Root.OnceErgodic == false {
 		q.PushBack(b.Root.Ergodic)
 		b.Root.OnceErgodic = true
 	}
 
-	return b.BlockType
+	return b.EntityType
 }
 
 // 树根节点，树的总节点数较小，使用遍历进行 查找/删除
@@ -28,12 +28,12 @@ type Root struct {
 	Leafs       []*Leaf
 }
 
-func (r *Root) Destroyed(q *queue.Queue[func()]) types.BlockType {
+func (r *Root) Destroyed(q *queue.Queue[func()]) types.EntityType {
 	if r.OnceErgodic == false {
 		q.PushBack(r.Ergodic)
 		r.OnceErgodic = true
 	}
-	return r.BlockType
+	return r.EntityType
 }
 
 func (r *Root) Ergodic() {

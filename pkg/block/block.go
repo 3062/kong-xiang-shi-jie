@@ -7,18 +7,18 @@ import (
 )
 
 type Block struct {
-	Position  vector.Vector2[int]
-	BlockType types.BlockType
+	Position   vector.Vector2[int]
+	EntityType types.EntityType
 }
 
 func (b *Block) GetPosition() vector.Vector2[int] {
 	return b.Position
 }
 
-func (b *Block) GetBlockType() types.BlockType {
-	return b.BlockType
+func (b *Block) GetEntityType() types.EntityType {
+	return b.EntityType
 }
 
-func (b *Block) Destroyed(q *queue.Queue[func()]) types.BlockType {
-	return b.BlockType
+func (b *Block) Destroyed(q *queue.Queue[func()]) types.EntityType {
+	return b.EntityType
 }

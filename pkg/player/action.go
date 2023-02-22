@@ -18,7 +18,7 @@ func NewAttackAction() ActionFunc {
 	}
 }
 
-func NewPlaceAction(types.BlockType) ActionFunc {
+func NewPlaceAction(types.EntityType) ActionFunc {
 	return func(p *Player) {
 
 	}
