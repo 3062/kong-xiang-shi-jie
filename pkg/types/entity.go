@@ -5,7 +5,7 @@ import "kong-xiang-shi-jie/tool/vector"
 type EntityType int32
 
 const NoneEntity EntityType = 0     //无
-const IntervalSize EntityType = 100 // 类型区间大小，1～100
+const IntervalSize EntityType = 100 // 类型区间大小，1～100，约定类型的第一个(Begin)作为整个类型的标签
 
 const (
 	TreeBegin EntityType = IntervalSize*iota + 1
