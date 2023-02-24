@@ -9,12 +9,22 @@ type Button struct {
 	Rect      figure.Rectangle[int]
 	Text      string
 	MouseDown bool
-	onPressed func() error
+	OnPressed func() error
 }
 
-// 按键触发函数
-func (b *Button) SetOnPressed(f func() error) {
-	b.onPressed = f
+type Option struct {
+	Rect      figure.Rectangle[int]
+	Text      string
+	OnPressed func() error
+}
+
+// TODO: 判断合法性
+func NewButton(opt Option) *Button {
+	return &Button{
+		Rect:      opt.Rect,
+		Text:      opt.Text,
+		OnPressed: opt.OnPressed,
+	}
 }
 
 func (b *Button) Update() error {
@@ -26,7 +36,7 @@ func (b *Button) Update() error {
 	p := mouse.Position
 
 	if b.Rect.IsPointIn(p) {
-		return b.onPressed()
+		return b.OnPressed()
 	}
 	return nil
 }

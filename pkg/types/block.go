@@ -1,7 +1,6 @@
 package types
 
 import (
-	"kong-xiang-shi-jie/tool/queue"
 	"kong-xiang-shi-jie/tool/vector"
 )
 
@@ -10,10 +9,6 @@ type Block interface {
 	Entity
 	Destroyed()
 	BuildStuff(vector.Vector2[float64])
-
-	// 统一结算队列，在逻辑帧 update 最后执行，主要用于大范围方块破坏时，等待全部结算后再执行一些判断行为。
-	// 后续可能放到公共区域，而不是存储在 Block 中
-	SettlementQueue(queue.Queue[func()])
 }
 
 // 方块素材，可以放入背包
