@@ -18,3 +18,13 @@ func (b *Block) GetPosition() vector.Vector2[int] {
 func (b *Block) GetEntityType() types.EntityType {
 	return b.EntityType
 }
+
+func DeleteByPosition(bl []Block, p vector.Vector2[int]) ([]Block, bool) {
+	for i, b := range bl {
+		if b.Position.Equal(p) {
+			bl = append(bl[0:i], bl[i:]...)
+			return bl, true
+		}
+	}
+	return bl, false
+}
