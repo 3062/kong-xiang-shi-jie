@@ -6,7 +6,7 @@ import (
 )
 
 type Tree struct {
-	root  block.Root
-	leafs []block.Leaf
+	trunk []block.Block
+	leafs []block.Block
 	shape types.TreeShape
 }
