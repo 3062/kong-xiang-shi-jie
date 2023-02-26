@@ -4,8 +4,10 @@ import (
 	"kong-xiang-shi-jie/pkg/config"
 	"kong-xiang-shi-jie/pkg/input"
 	"kong-xiang-shi-jie/pkg/types"
+	"kong-xiang-shi-jie/tool/vector"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/solarlune/resolv"
 )
 
 type Player struct {
@@ -16,10 +18,22 @@ type Player struct {
 	RightButtonFunc ActionFunc
 	RunFunc         ActionFunc
 	PlayerStates    []types.PlayerState
+	Collider        *resolv.Object
+	Position        vector.Vector2[int]
+	Speed           int
 }
 
-func NewPlay(cfg *config.Player) Player {
-	return Player{}
+func NewPlay(cfg *config.Player) *Player {
+	p := &Player{
+		HP:           cfg.HP,
+		Buff:         cfg.Buff,
+		PlayerStates: cfg.PlayerStates,
+		Position:     cfg.Position,
+	}
+
+	p.Collider = resolv.NewObject()
+
+	return p
 }
 
 func (p *Player) Update() {
@@ -33,7 +47,19 @@ func (p *Player) Update() {
 		p.RightButtonFunc(p)
 	}
 
-	if keyboard.IsClick(ebiten.Key0) {
+	if keyboard.IsClick(ebiten.KeyRight) {
 
 	}
+}
+
+func DefaultLeft() ActionFunc {
+	return NewDestroyAction(10)
+}
+
+func DefaultRight() ActionFunc {
+	return nil
+}
+
+func DefaultRun(p *Player) {
+
 }

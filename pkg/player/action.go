@@ -29,3 +29,9 @@ func NewRunAction(speed float64) ActionFunc {
 
 	}
 }
+
+func NewRunAction(speed float64) ActionFunc {
+	return func(p *Player) {
+
+	}
+}

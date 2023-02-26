@@ -22,7 +22,11 @@ func (b *Block) GetEntityType() types.EntityType {
 func DeleteByPosition(bl []Block, p vector.Vector2[int]) ([]Block, bool) {
 	for i, b := range bl {
 		if b.Position.Equal(p) {
-			bl = append(bl[0:i], bl[i:]...)
+			if i == len(bl) {
+				bl = bl[0:i]
+			} else {
+				bl = append(bl[0:i], bl[i+1:]...)
+			}
 			return bl, true
 		}
 	}
